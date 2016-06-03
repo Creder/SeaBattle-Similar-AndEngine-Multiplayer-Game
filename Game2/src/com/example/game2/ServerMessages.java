@@ -7,7 +7,8 @@ import java.io.IOException;
 import org.andengine.extension.multiplayer.protocol.adt.message.server.ServerMessage;
 
 public class ServerMessages {
-public static final short SERVER_MESSAGE_HIT = ClientMessages.CLIENT_FLAG_COUNT;
+	public static final short SERVER_MESSAGE_PALUB = ClientMessages.CLIENT_FLAG_COUNT;
+	public static final short SERVER_MESSAGE_HIT = ClientMessages.CLIENT_FLAG_COUNT;
 	
 public static class HitServerMessage extends ServerMessage{
 
@@ -71,4 +72,59 @@ public static class HitServerMessage extends ServerMessage{
 	}
 }
 
+public static class PalubServerMessage extends ServerMessage{
+
+	private int mID;
+	private float mX;
+	private float mY;
+
+
+	public PalubServerMessage(){
+		// Do nothing...
+	}
+	
+	public PalubServerMessage(final int pID, final float pX, final float pY){
+		this.mID = pID;
+		this.mX = pX;
+		this.mY = pY;
+	}
+	
+	public void set(final int pID, final float pX, final float pY){
+		this.mID = pID;
+		this.mX = pX;
+		this.mY = pY;
+	}
+	
+	public int getID(){
+		return this.mID;
+	}
+	public float getX(){
+		return this.mX;
+	}
+	public float getY(){
+		return this.mY;
+	}
+
+	
+	@Override
+	public short getFlag() {
+		return SERVER_MESSAGE_HIT;
+	}
+
+	@Override
+	protected void onReadTransmissionData(DataInputStream pDataInputStream)
+			throws IOException {
+		this.mID = pDataInputStream.readInt();
+		this.mX = pDataInputStream.readFloat();
+		this.mY = pDataInputStream. readFloat();
+	}
+
+	@Override
+	protected void onWriteTransmissionData(
+			DataOutputStream pDataOutputStream) throws IOException {
+		pDataOutputStream.writeInt(this.mID);
+		pDataOutputStream.writeFloat(this.mX);
+		pDataOutputStream.writeFloat(this.mY);
+	}
+}
 }

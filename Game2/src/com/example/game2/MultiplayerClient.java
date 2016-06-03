@@ -22,7 +22,7 @@ import com.example.game2.ServerMessages.HitServerMessage;
 
 import android.util.Log;
 
-public class MultiplayerClient implements ISocketConnectionServerConnectorListener {
+public class MultiplayerClient implements ISocketConnectionServerConnectorListener, GameConstants {
 
 	private static final String TAG = "CLIENT";
 	private Engine mEngine;
@@ -35,7 +35,7 @@ public class MultiplayerClient implements ISocketConnectionServerConnectorListen
 	
 	private ServerConnector<SocketConnection> mServerConnector;
 	
-	private int mColorId = HitClientMessage.COLOR_RED;
+	private int mColorId;
 	
 	public MultiplayerClient(final String pServerIP, final int pServerPort, final Engine pEngine, final Scene pScene, final Camera pCamera){
 		this.mServerIP = pServerIP;
@@ -43,7 +43,6 @@ public class MultiplayerClient implements ISocketConnectionServerConnectorListen
 		this.mCamera = pCamera;
 		this.mEngine = pEngine;
 		this.mScene = pScene;
-		_CameraW = (int) this.mCamera.getWidth();
 	}
 	
 	public void initClient(){
@@ -66,9 +65,10 @@ public class MultiplayerClient implements ISocketConnectionServerConnectorListen
 							
 							HitServerMessage message = (HitServerMessage) pServerMessage;
 							
-							final float cellSize = (_CameraW/3)/10;
 							
 							Sprite hit = new Sprite(message.getX(), message.getY(), MainActivity.MissTextureRegion, mEngine.getVertexBufferObjectManager());
+							hit.setWidth(CELLSIZE);
+							hit.setHeight(CELLSIZE);
 							final int colorId = message.getColorId();
 
 							// Set the point's color based on the message's color id
