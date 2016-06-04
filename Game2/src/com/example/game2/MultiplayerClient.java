@@ -26,9 +26,8 @@ public class MultiplayerClient implements ISocketConnectionServerConnectorListen
 
 	private static final String TAG = "CLIENT";
 	private Engine mEngine;
-	private Scene mScene;
-	private Camera mCamera;
-	private static int _CameraW;
+	private Rectangle mLeftField;
+	private Rectangle mRightField;
 	
 	private String mServerIP;
 	private int mServerPort;
@@ -37,12 +36,12 @@ public class MultiplayerClient implements ISocketConnectionServerConnectorListen
 	
 	private int mColorId;
 	
-	public MultiplayerClient(final String pServerIP, final int pServerPort, final Engine pEngine, final Scene pScene, final Camera pCamera){
+	public MultiplayerClient(final String pServerIP, final int pServerPort, final Engine pEngine, final Rectangle pLeftField, final Rectangle pRightField){
 		this.mServerIP = pServerIP;
 		this.mServerPort = pServerPort;
-		this.mCamera = pCamera;
 		this.mEngine = pEngine;
-		this.mScene = pScene;
+		this.mLeftField = pLeftField;
+		this.mRightField = pRightField;
 	}
 	
 	public void initClient(){
@@ -70,20 +69,27 @@ public class MultiplayerClient implements ISocketConnectionServerConnectorListen
 							hit.setWidth(CELLSIZE);
 							hit.setHeight(CELLSIZE);
 							final int colorId = message.getColorId();
+							final int fieldId = message.getFieldid();
 
 							// Set the point's color based on the message's color id
 							switch(colorId){
 							case HitClientMessage.COLOR_RED:
 								hit.setColor(1,0,0);
 								break;
-							case HitClientMessage.COLOR_GREEN:
-								hit.setColor(0,1,0);
-								break;
 							case HitClientMessage.COLOR_BLUE:
 								hit.setColor(0,0,1);
 								break;
 							}
-							mScene.attachChild(hit);
+							
+							switch(fieldId){
+							case FIELDLEFT_ID:
+								mLeftField.attachChild(hit);
+								break;
+							case FIELDRIGHT_ID:
+								mRightField.attachChild(hit);
+								break;
+							}
+							
 						}
 						
 					});

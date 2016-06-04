@@ -14,13 +14,13 @@ public class ClientMessages {
 	public static class HitClientMessage extends ClientMessage{
 
 		public static final int COLOR_RED = 0;
-		public static final int COLOR_GREEN = 1;
-		public static final int COLOR_BLUE = 2;
+		public static final int COLOR_BLUE = 1;
 		
 		private int mID;
 		private float mX;
 		private float mY;
 		private int mColorId;
+		private int mFieldId;
 		
 		// Empty constructor needed for message pool allocation
 		public HitClientMessage(){
@@ -28,19 +28,21 @@ public class ClientMessages {
 		}
 		
 		// Constructor
-		public HitClientMessage(final int pID, final float pX, final float pY, final int pColorId){
+		public HitClientMessage(final int pID, final float pX, final float pY, final int pColorId, final int pFieldId){
 			this.mID = pID;
 			this.mX = pX;
 			this.mY = pY;
 			this.mColorId = pColorId;
+			this.mFieldId = pFieldId;
 		}
 		
 		// A Setter is needed to change values when we obtain a message from the message pool
-		public void set(final int pID, final float pX, final float pY, final int pColorId){
+		public void set(final int pID, final float pX, final float pY, final int pColorId, final int pFieldId){
 			this.mID = pID;
 			this.mX = pX;
 			this.mY = pY;
 			this.mColorId = pColorId;
+			this.mFieldId = pFieldId;
 		}
 		
 		// Getters
@@ -55,6 +57,9 @@ public class ClientMessages {
 		}
 		public int getColorId(){
 			return this.mColorId;
+		}
+		public int getFieldId(){
+			return this.mFieldId;
 		}
 		
 		// Get the message flag
@@ -71,6 +76,7 @@ public class ClientMessages {
 			this.mX = pDataInputStream.readFloat();
 			this.mY = pDataInputStream. readFloat();
 			this.mColorId = pDataInputStream.readInt();
+			this.mFieldId = pDataInputStream.readInt();
 		}
 
 		// Write the message's member variables to the output stream
@@ -81,17 +87,16 @@ public class ClientMessages {
 			pDataOutputStream.writeFloat(this.mX);
 			pDataOutputStream.writeFloat(this.mY);
 			pDataOutputStream.writeInt(mColorId);
+			pDataOutputStream.writeInt(mFieldId);
 		}
 	}
 
 	public static class PalubClientMessage extends ClientMessage{
-
-		public static final int COLOR_RED = 0;
-		public static final int COLOR_GREEN = 1;
-		
+	
 		private int mID;
 		private float mX;
 		private float mY;
+		private int mFieldId;
 		
 		// Empty constructor needed for message pool allocation
 		public PalubClientMessage(){
@@ -99,17 +104,19 @@ public class ClientMessages {
 		}
 		
 		// Constructor
-		public PalubClientMessage(final int pID, final float pX, final float pY){
+		public PalubClientMessage(final int pID, final float pX, final float pY, final int pFieldId){
 			this.mID = pID;
 			this.mX = pX;
 			this.mY = pY;
+			this.mFieldId = pFieldId;
 		}
 		
 		// A Setter is needed to change values when we obtain a message from the message pool
-		public void set(final int pID, final float pX, final float pY){
+		public void set(final int pID, final float pX, final float pY, final int pFieldId){
 			this.mID = pID;
 			this.mX = pX;
 			this.mY = pY;
+			this.mFieldId = pFieldId;
 		}
 		
 		// Getters
@@ -121,6 +128,9 @@ public class ClientMessages {
 		}
 		public float getY(){
 			return this.mY;
+		}
+		public int getFieldId(){
+			return this.mFieldId;
 		}
 		
 		// Get the message flag
@@ -136,6 +146,7 @@ public class ClientMessages {
 			this.mID = pDataInputStream.readInt();
 			this.mX = pDataInputStream.readFloat();
 			this.mY = pDataInputStream. readFloat();
+			this.mFieldId = pDataInputStream.readInt();
 		}
 
 		// Write the message's member variables to the output stream
@@ -145,6 +156,7 @@ public class ClientMessages {
 			pDataOutputStream.writeInt(this.mID);
 			pDataOutputStream.writeFloat(this.mX);
 			pDataOutputStream.writeFloat(this.mY);
+			pDataOutputStream.writeInt(mFieldId);
 		}
 	}
 }

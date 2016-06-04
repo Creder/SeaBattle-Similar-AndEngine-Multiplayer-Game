@@ -64,7 +64,7 @@ public class MultiplayerServer implements
 									IClientMessage pClientMessage)
 									throws IOException {
 								HitClientMessage incomingMessage = (HitClientMessage) pClientMessage;
-								HitServerMessage outgoingMessage = new HitServerMessage(incomingMessage.getID(), incomingMessage.getX(), incomingMessage.getY(), incomingMessage.getColorId());
+								HitServerMessage outgoingMessage = new HitServerMessage(incomingMessage.getID(), incomingMessage.getX(), incomingMessage.getY(), incomingMessage.getColorId(), incomingMessage.getFieldId());
 								sendMessage(outgoingMessage);
 							}
 						});
