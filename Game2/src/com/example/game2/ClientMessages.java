@@ -7,8 +7,9 @@ import java.io.IOException;
 import org.andengine.extension.multiplayer.protocol.adt.message.client.ClientMessage;
 
 public class ClientMessages {
-	public static final short CLIENT_MESSAGE_PALUB = 0;
-	public static final short CLIENT_MESSAGE_HIT = CLIENT_MESSAGE_PALUB+1;
+	public static final short CLIENT_MESSAGE_ID = 0;
+	public static final short CLIENT_MESSAGE_UNIT = CLIENT_MESSAGE_ID+1;
+	public static final short CLIENT_MESSAGE_HIT = CLIENT_MESSAGE_UNIT+1;
 	public static final int	CLIENT_FLAG_COUNT = CLIENT_MESSAGE_HIT + 1;
 
 	public static class HitClientMessage extends ClientMessage{
@@ -91,7 +92,7 @@ public class ClientMessages {
 		}
 	}
 
-	public static class PalubClientMessage extends ClientMessage{
+	public static class UnitClientMessage extends ClientMessage{
 	
 		private int mID;
 		private float mX;
@@ -99,12 +100,12 @@ public class ClientMessages {
 		private int mFieldId;
 		
 		// Empty constructor needed for message pool allocation
-		public PalubClientMessage(){
+		public UnitClientMessage(){
 			// Do nothing...
 		}
 		
 		// Constructor
-		public PalubClientMessage(final int pID, final float pX, final float pY, final int pFieldId){
+		public UnitClientMessage(final int pID, final float pX, final float pY, final int pFieldId){
 			this.mID = pID;
 			this.mX = pX;
 			this.mY = pY;
@@ -136,7 +137,7 @@ public class ClientMessages {
 		// Get the message flag
 		@Override
 		public short getFlag() {
-			return CLIENT_MESSAGE_PALUB;
+			return CLIENT_MESSAGE_UNIT;
 		}
 
 		// Apply the read data to the message's member variables
@@ -157,6 +158,55 @@ public class ClientMessages {
 			pDataOutputStream.writeFloat(this.mX);
 			pDataOutputStream.writeFloat(this.mY);
 			pDataOutputStream.writeInt(mFieldId);
+		}
+	}
+	
+	public static class IDClientMessage extends ClientMessage{
+
+		
+		private int mID;
+
+		
+		// Empty constructor needed for message pool allocation
+		public IDClientMessage(){
+			// Do nothing...
+		}
+		
+		// Constructor
+		public IDClientMessage(final int pID){
+			this.mID = pID;
+
+		}
+		
+		// A Setter is needed to change values when we obtain a message from the message pool
+		public void set(final int pID){
+			this.mID = pID;
+
+		}
+		
+		// Getters
+		public int getID(){
+			return this.mID;
+		}
+	
+		@Override
+		public short getFlag() {
+			return CLIENT_MESSAGE_ID;
+		}
+
+		// Apply the read data to the message's member variables
+		@Override
+		protected void onReadTransmissionData(DataInputStream pDataInputStream)
+				throws IOException {
+			this.mID = pDataInputStream.readInt();
+
+		}
+
+		// Write the message's member variables to the output stream
+		@Override
+		protected void onWriteTransmissionData(
+				DataOutputStream pDataOutputStream) throws IOException {
+			pDataOutputStream.writeInt(this.mID);
 		}
 	}
 }

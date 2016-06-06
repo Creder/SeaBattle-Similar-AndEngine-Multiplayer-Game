@@ -15,7 +15,9 @@ import org.andengine.extension.multiplayer.protocol.server.connector.SocketConne
 import org.andengine.extension.multiplayer.protocol.shared.SocketConnection;
 
 import com.example.game2.ClientMessages.HitClientMessage;
+import com.example.game2.ClientMessages.UnitClientMessage;
 import com.example.game2.ServerMessages.HitServerMessage;
+import com.example.game2.ServerMessages.UnitServerMessage;
 
 import android.util.Log;
 
@@ -66,6 +68,19 @@ public class MultiplayerServer implements
 								HitClientMessage incomingMessage = (HitClientMessage) pClientMessage;
 								HitServerMessage outgoingMessage = new HitServerMessage(incomingMessage.getID(), incomingMessage.getX(), incomingMessage.getY(), incomingMessage.getColorId(), incomingMessage.getFieldId());
 								sendMessage(outgoingMessage);
+							}
+						});
+						
+						clientConnector.registerClientMessage(ClientMessages.CLIENT_MESSAGE_UNIT, UnitClientMessage.class, new IClientMessageHandler<SocketConnection>(){
+
+							@Override
+							public void onHandleMessage(
+									ClientConnector<SocketConnection> pClientConnector,
+									IClientMessage pClientMessage)
+									throws IOException {
+								UnitClientMessage incomingUnit = (UnitClientMessage) pClientMessage;
+								UnitServerMessage outgoingUnit = new UnitServerMessage(incomingUnit.getID(), incomingUnit.getX(), incomingUnit.getY(), incomingUnit.getFieldId());
+								sendMessage(outgoingUnit);
 							}
 						});
 						return clientConnector;
