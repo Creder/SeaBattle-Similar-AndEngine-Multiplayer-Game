@@ -204,7 +204,7 @@ public class MainActivity extends SimpleBaseGameActivity implements GameConstant
 								}
 								};
 								
-		RightGenerator = new Rectangle(CAMERAW-CELLSIZE, 0, CELLSIZE, CELLSIZE, vertexBufferObjectManager)
+		/*RightGenerator = new Rectangle(CAMERAW-CELLSIZE, 0, CELLSIZE, CELLSIZE, vertexBufferObjectManager)
 								{
 								@Override
 								public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float X, float Y)
@@ -269,7 +269,7 @@ public class MainActivity extends SimpleBaseGameActivity implements GameConstant
 										
 										return true;
 									}
-									};	
+									};	*/
 		_leftfield = new Rectangle(FIELDLEFT_X, FIELDLEFT_Y, FIELD_WIDTH, FIELD_WIDTH, vertexBufferObjectManager)
 		{
 		    @Override
